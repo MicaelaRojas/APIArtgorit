@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "II7TlxTz8RCW/1Pr2oQtJ5sZHhp/7Ik+MM49suFPW48=",
+  "Source": "ApiMysql",
+  "BasePath": "_content/ApiMysql",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
