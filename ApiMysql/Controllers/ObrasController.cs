@@ -25,22 +25,22 @@ namespace ApiMysql.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Obras>>> GetObras()
         {
-          if (_context.Obras == null)
+          if (_context.obras == null)
           {
               return NotFound();
           }
-            return await _context.Obras.ToListAsync();
+            return await _context.obras.ToListAsync();
         }
 
         // GET: api/Obras/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Obras>> GetObras(int id)
         {
-          if (_context.Obras == null)
+          if (_context.obras == null)
           {
               return NotFound();
           }
-            var obras = await _context.Obras.FindAsync(id);
+            var obras = await _context.obras.FindAsync(id);
 
             if (obras == null)
             {
@@ -86,11 +86,11 @@ namespace ApiMysql.Controllers
         [HttpPost]
         public async Task<ActionResult<Obras>> PostObras(Obras obras)
         {
-          if (_context.Obras == null)
+          if (_context.obras == null)
           {
               return Problem("Entity set 'MySQLConfiguration.Obras'  is null.");
           }
-            _context.Obras.Add(obras);
+            _context.obras.Add(obras);
             try
             {
                 await _context.SaveChangesAsync();
@@ -114,17 +114,17 @@ namespace ApiMysql.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteObras(int id)
         {
-            if (_context.Obras == null)
+            if (_context.obras == null)
             {
                 return NotFound();
             }
-            var obras = await _context.Obras.FindAsync(id);
+            var obras = await _context.obras.FindAsync(id);
             if (obras == null)
             {
                 return NotFound();
             }
 
-            _context.Obras.Remove(obras);
+            _context.obras.Remove(obras);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -132,7 +132,7 @@ namespace ApiMysql.Controllers
 
         private bool ObrasExists(int id)
         {
-            return (_context.Obras?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.obras?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

@@ -17,6 +17,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
+using System.Net.Mail;
+using System.Net;
 
 namespace ApiMysql.Controllers
 {
@@ -25,10 +27,16 @@ namespace ApiMysql.Controllers
     public class UsersController : ControllerBase
     {
         private readonly MySQLConfiguration _context;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(MySQLConfiguration context)
+        public UsersController(MySQLConfiguration context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
+        }
+        protected MySqlConnection dbConnection()
+        {
+            return new MySqlConnection(_context.ConnectionString);
         }
 
         private string GetMd5Hash(string input)
@@ -271,7 +279,92 @@ namespace ApiMysql.Controllers
             userEncontrado.password = GetMd5Hash(request.nueva_password);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Contraseña actualizado Correctamente");
+        }
+
+        // POST: api/users/editarUser
+        [HttpPost("editarUser")]
+        [Authorize]
+        public async Task<ActionResult> editarUser([FromBody] EditarUser user)
+        {
+            // Obtener el id del token de acceso
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("El id no es válido"); // Devuelve un código de error adecuado si el id no es un entero válido
+            }
+
+            // Buscar usuario por id
+            var userEncontrado = await _context.users.FirstOrDefaultAsync(u => u.id == userIdInt);
+            if (userEncontrado == null)
+            {
+                return NotFound();
+            }
+
+            // Validar si el email existe
+            var validation = await _context.users.SingleOrDefaultAsync(u => u.email == user.email);
+            if (validation == null)
+            {
+                // Actualizar la info del usuario
+                userEncontrado.name = user.name;
+                userEncontrado.email = user.email;
+                await _context.SaveChangesAsync();
+                return Ok("Usuario actualizado Correctamente");
+            }
+            return NotFound("Ya existe una cuenta asociada al correo electrónico que ingresó");
+        }
+
+        // POST: api/users/restablecerPassword
+        [HttpPost("restablecerPassword")]
+        public async Task<ActionResult> restablecerPassword([FromBody] Correo request)
+        {
+            try
+            {
+                var email = request.email;
+
+                // Encuentra al usuario con el correo ingresado
+                var usuario = await _context.users.FirstOrDefaultAsync(u => u.email == email);
+                if (usuario == null)
+                {
+                    var errorResponse = new { mensaje = "El correo ingresado no existe" };
+                    return StatusCode(400, errorResponse);
+                }
+                var correo = await _context.configuracion_correo.FirstOrDefaultAsync(c => c.idCorreo == 1);
+                
+
+                // Obtiene las creedenciales del correo que estan en el la tabla configuracion_correo
+                //var emailConfig = _configuration.GetSection("EmailSettings");
+                var fromEmail = correo.senderEmail;
+                var fromPassword = correo.senderPassword;
+
+                // Creando el mensaje del email
+                var message = new MailMessage
+                {
+                    From = new MailAddress(fromEmail),
+                    Subject = "Restablecer contraseña",
+                    Body = $"Buenas Sr./Sra. {usuario.name}, para restablecer su contraseña acceda este enlace: https://www.google.com.pe/ . \r\n\r\nSi usted no desea cambiar su contraseña, ignore este correo."
+                };
+                message.To.Add(new MailAddress(usuario.email));
+
+                // Configurando el cliente SMTP
+                var smtpClient = new SmtpClient
+                {
+                    Host = correo.smtpServer,
+                    Port = correo.smtpPort,
+                    EnableSsl = correo.enableSsl,
+                    Credentials = new NetworkCredential(fromEmail, fromPassword)
+                };
+
+                // Enviando email
+                smtpClient.Send(message);
+
+                return Ok("Email enviado Correctamente");
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new { mensaje = $"Error enviando email: {ex.Message}" };
+                return StatusCode(500, errorResponse);
+            }
         }
 
         private bool UsersExists(int id)

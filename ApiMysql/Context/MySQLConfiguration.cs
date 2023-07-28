@@ -18,7 +18,7 @@ namespace ApiMysql.Context
         }
 
         public DbSet<Users> users { get; set; }
-
-        public DbSet<Obras> Obras { get; set; }
+        public DbSet<Obras> obras { get; set; }
+        public DbSet<Configuracion_correo> configuracion_correo { get; set; }
     }
 }
