@@ -367,6 +367,24 @@ namespace ApiMysql.Controllers
             }
         }
 
+        // GET: api/users/userdata
+        [HttpGet("userdata")]
+        [Authorize]
+        public async Task<IActionResult> GetUserdata()
+        {
+            // Obtener el idUsuario del token de acceso
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("El idUsuario no es válido"); // Devuelve un código de error adecuado si el idUsuario no es un entero válido
+            }
+
+            // Buscar info por id
+            var user = await _context.users.FirstOrDefaultAsync(c => c.id == userIdInt);
+
+            return Ok(user);
+        }
+
         private bool UsersExists(int id)
         {
             return (_context.users?.Any(e => e.id == id)).GetValueOrDefault();

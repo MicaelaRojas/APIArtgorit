@@ -17,12 +17,8 @@ namespace ApiMysql.Models
         public string imagen { get; set; }
         public string codigo { get; set; }
 
-        // Agrega las propiedades correspondientes a cada modelo
+        // Agrega la propiedad correspondiente al modelo
         public int user_id { get; set; }
-
-        // Agrega la relación con el modelo
-        [ForeignKey("id")]
-        [Column("id")]
-        public Users Users { get; set; }
     }
 }
+
