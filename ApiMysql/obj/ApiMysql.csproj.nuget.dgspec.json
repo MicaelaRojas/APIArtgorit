@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GENARO\\Desktop\\ApiMysql\\ApiMysql\\ApiMysql.csproj": {}
+    "C:\\Users\\Micaela Rojas\\source\\repos\\ApiGaleryMysql\\ApiMysql\\ApiMysql.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GENARO\\Desktop\\ApiMysql\\ApiMysql\\ApiMysql.csproj": {
+    "C:\\Users\\Micaela Rojas\\source\\repos\\ApiGaleryMysql\\ApiMysql\\ApiMysql.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GENARO\\Desktop\\ApiMysql\\ApiMysql\\ApiMysql.csproj",
+        "projectUniqueName": "C:\\Users\\Micaela Rojas\\source\\repos\\ApiGaleryMysql\\ApiMysql\\ApiMysql.csproj",
         "projectName": "ApiMysql",
-        "projectPath": "C:\\Users\\GENARO\\Desktop\\ApiMysql\\ApiMysql\\ApiMysql.csproj",
-        "packagesPath": "C:\\Users\\GENARO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GENARO\\Desktop\\ApiMysql\\ApiMysql\\obj\\",
+        "projectPath": "C:\\Users\\Micaela Rojas\\source\\repos\\ApiGaleryMysql\\ApiMysql\\ApiMysql.csproj",
+        "packagesPath": "C:\\Users\\Micaela Rojas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Micaela Rojas\\source\\repos\\ApiGaleryMysql\\ApiMysql\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\GENARO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Micaela Rojas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -93,7 +94,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -105,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
         }
       }
     }

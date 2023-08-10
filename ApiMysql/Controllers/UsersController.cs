@@ -65,6 +65,7 @@ namespace ApiMysql.Controllers
               return NotFound();
           }
             return await _context.users.ToListAsync();
+
         }
 
         // GET: api/Users/5
